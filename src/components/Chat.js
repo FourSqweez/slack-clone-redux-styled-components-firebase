@@ -8,7 +8,9 @@ import { useCollection, useDocument } from 'react-firebase-hooks/firestore'
 import { db } from '../firebase'
 import Message from './Message'
 
+
 export default function Chat() {
+  
   const chatRef = useRef(null)
   const roomId = useSelector(selectRoomId)
   const [roomDetails] = useDocument(
@@ -30,43 +32,45 @@ export default function Chat() {
 
   return (
     <ChatContainer>
-      <>
-        <Header>
-          <HeaderLeft>
-            <h4>
-              <strong>#{roomDetails?.data().name}</strong>
-            </h4>
-            <StarBorderOutlined />
-          </HeaderLeft>
-          <HeaderRight>
-            <p>
-              <InfoOutlined /> Details
-            </p>
-          </HeaderRight>
-        </Header>
+      {roomDetails && roomMessages && (
+        <>
+          <Header>
+            <HeaderLeft>
+              <h4>
+                <strong>#{roomDetails?.data().name}</strong>
+              </h4>
+              <StarBorderOutlined />
+            </HeaderLeft>
+            <HeaderRight>
+              <p>
+                <InfoOutlined /> Details
+              </p>
+            </HeaderRight>
+          </Header>
 
-        <ChatMessages>
-          {roomMessages?.docs.map((doc) => {
-            const { message, timestamp, user, userImage } = doc.data()
-            return (
-              <Message
-                key={doc.id}
-                message={message}
-                timestamp={timestamp}
-                user={user}
-                userImage={userImage}
-              />
-            )
-          })}
-          <ChatBottom ref={chatRef} />
-        </ChatMessages>
+          <ChatMessages>
+            {roomMessages?.docs.map((doc) => {
+              const { message, timestamp, user, userImage } = doc.data()
+              return (
+                <Message
+                  key={doc.id}
+                  message={message}
+                  timestamp={timestamp}
+                  user={user}
+                  userImage={userImage}
+                />
+              )
+            })}
+            <ChatBottom ref={chatRef} />
+          </ChatMessages>
 
-        <ChatInput
-          chatRef={chatRef}
-          channelName={roomDetails?.data().name}
-          channelId={roomId}
-        />
-      </>
+          <ChatInput
+            chatRef={chatRef}
+            channelName={roomDetails?.data().name}
+            channelId={roomId}
+          />
+        </>
+      )}
     </ChatContainer>
   )
 }
