@@ -46,7 +46,7 @@ export default function Sidebar() {
       <hr />
       <SideOption Icon={Add} addChannelOption title="Add Channel" />
 
-      {console.log(channels)}
+      {console.log(`channels : ${channels}`)}
 
       {channels?.docs.map((doc) => (
         <SideOption key={doc.id} id={doc.id} title={doc.data().name} />
