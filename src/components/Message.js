@@ -23,6 +23,7 @@ const MessageContainer = styled.div`
   > img {
     height: 50px;
     width: 50px;
+    object-fit: cover;
     border-radius: 8px;
   }
 `

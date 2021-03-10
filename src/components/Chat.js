@@ -1,5 +1,5 @@
 import { InfoOutlined, StarBorderOutlined } from '@material-ui/icons'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { selectRoomId } from '../features/appSlice'
@@ -9,11 +9,12 @@ import { db } from '../firebase'
 import Message from './Message'
 
 export default function Chat() {
+  const chatRef = useRef(null)
   const roomId = useSelector(selectRoomId)
   const [roomDetails] = useDocument(
     roomId && db.collection('rooms').doc(roomId)
   )
-  const [roomMessages] = useCollection(
+  const [roomMessages, loading] = useCollection(
     roomId &&
       db
         .collection('rooms')
@@ -21,6 +22,11 @@ export default function Chat() {
         .collection('messages')
         .orderBy('timestamp', 'asc')
   )
+  useEffect(() => {
+    chatRef?.current?.scrollIntoView({
+      behavior: 'smooth',
+    })
+  }, [roomId, loading])
 
   return (
     <ChatContainer>
@@ -52,10 +58,14 @@ export default function Chat() {
               />
             )
           })}
-          <ChatBottom />
+          <ChatBottom ref={chatRef} />
         </ChatMessages>
 
-        <ChatInput channelName={roomDetails?.data().name} channelId={roomId} />
+        <ChatInput
+          chatRef={chatRef}
+          channelName={roomDetails?.data().name}
+          channelId={roomId}
+        />
       </>
     </ChatContainer>
   )

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { db } from '../firebase'
 import firebase from 'firebase'
 
-function ChatInput({ channelName, channelId }) {
+function ChatInput({ channelName, channelId, chatRef }) {
   const [input, setInput] = useState('')
 
   const sendMessage = (e) => {
@@ -20,6 +20,10 @@ function ChatInput({ channelName, channelId }) {
         'https://scontent.fnak1-1.fna.fbcdn.net/v/t1.0-9/142329626_2349282661884094_1479215446098487803_o.jpg?_nc_cat=108&ccb=1-3&_nc_sid=09cbfe&_nc_eui2=AeGo2QZFJufkTJQplLetSqq4QfWfrzLJZeNB9Z-vMsll41ZWSkB3l36SkfeSvb3z_NfIcOGctZqm2zPIyt8sH2bH&_nc_ohc=7bAZztgA_mUAX_yNRjy&_nc_ht=scontent.fnak1-1.fna&oh=b521ab926196de71fe9b21219f3ee270&oe=606C81B1',
     })
 
+    chatRef.current.scrollIntoView({
+      behavior: 'smooth',
+    })
+    
     setInput('')
   }
   return (
