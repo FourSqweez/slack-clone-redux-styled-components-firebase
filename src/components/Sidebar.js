@@ -14,20 +14,22 @@ import {
 } from '@material-ui/icons'
 import { SidebarContainer, SidebarHeader, SidebarInfo } from './Sidebar.style'
 import SideOption from './SideOption'
-import { db } from '../firebase'
+import { auth, db } from '../firebase'
 import { useCollection } from 'react-firebase-hooks/firestore'
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 export default function Sidebar() {
-  const [channels, loading, error] = useCollection(db.collection('rooms'))
+  const [channels] = useCollection(db.collection('rooms'))
+  const [user] = useAuthState(auth)
 
   return (
     <SidebarContainer>
       <SidebarHeader>
         <SidebarInfo>
-          <h2>React talk</h2>
+          <h2>YO YO</h2>
           <h3>
             <FiberManualRecord />
-            four sqweez
+            {user.displayName}
           </h3>
         </SidebarInfo>
         <Create />
